@@ -1,8 +1,18 @@
 import React from 'react'
-
+import { useAppContext } from '@/context/AppContext'
+import ProductCard from './ProductCard';
 const HomeProducts = () => {
+  const {products, router} = useAppContext();
   return (
-    <div>HomeProducts</div>
+    <div className='flex flex-col items-center pt-14'>
+      <p className='text-2xl font-medium text-left w-full'>Popular Products</p>
+      <div className='grid gris-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 flex-col items-center gap-6 mt-b pb-14 w-full'>
+        {products.map((product,index)=><ProductCard key={index} product={product}/>)}
+      </div>
+      <button onClick={()=>{router.push('/all-products')}} className='px-12 py-2.5 border rounded text-gray-500/70 hover:bg-slate-50/90 transition'>
+        See more
+      </button>
+    </div>
   )
 }
 
