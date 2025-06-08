@@ -4,6 +4,7 @@ import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import PageLoader from "@/components/PageLoader";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -22,6 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <ClerkProvider>
     <html lang="en">
       <body
         className={`${montserrat.variable} antialiased`}
@@ -31,5 +33,6 @@ export default function RootLayout({
         <Providers>{children}</Providers>
       </body>
     </html>
+    </ClerkProvider>
   );
 }

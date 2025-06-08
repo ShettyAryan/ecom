@@ -10,7 +10,7 @@ export default function PageLoader() {
 
   useEffect(() => {
     setLoading(true);
-    const timeout = setTimeout(() => setLoading(false), 1500); // simulate load delay
+    const timeout = setTimeout(() => setLoading(false), 1000); // simulate load delay
 
     return () => clearTimeout(timeout);
   }, [pathname]);

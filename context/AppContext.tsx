@@ -2,6 +2,9 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react'
 import { productsDummyData, userDummyData } from '@/assets/assets'
 import { useRouter } from 'next/navigation'
+import { useUser } from '@clerk/nextjs';
+import type { UserResource } from "@clerk/types";
+
 
 
 type Product ={
@@ -22,6 +25,7 @@ type CartItems ={
 }
 
 interface AppContextType{
+    user : UserResource | null | undefined;
     currency: string | undefined;
     router: ReturnType<typeof useRouter>;
     isSeller: boolean;
@@ -59,6 +63,8 @@ export const useAppContext =(): AppContextType =>{
 export const AppContextProvider = ({children}:AppProviderProps)=>{
  const currency = process.env.NEXT_PUBLIC_CURENCY
  const router = useRouter();
+
+ const {user} = useUser();
 
  const [products, setProducts] = useState<Product[]>([])
  const [userData, setUserData] = useState<UserData | boolean>(false)
@@ -121,6 +127,7 @@ export const AppContextProvider = ({children}:AppProviderProps)=>{
     },[])
 
     const value :AppContextType = {
+        user,
         currency,
         router,
         isSeller,
