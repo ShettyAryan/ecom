@@ -58,7 +58,7 @@ useEffect(()=>{
                       <td className='px-4 py-3 max-sm:hidden'>{product.category}</td>
                       <td className='px-4 py-3'> ₹{product.offerPrice}</td>
                       <td className='px-4 py-3 max-sm:hidden'>
-                        <button className='flex items-center gap-1 px-1.5 md:px-3.5 py-2 bg-ornage-600 text-white rounded-md' onClick={()=>router.push(`/products/${product._id}`)}>
+                        <button className='flex items-center gap-1 px-1.5 md:px-3.5 py-2 bg-orange-600 text-white rounded-md' onClick={()=>router.push(`/products/${product._id}`)}>
                           <span className='hidden md:block'>Visit</span>
                           <Image 
                            className='h-3.5'
