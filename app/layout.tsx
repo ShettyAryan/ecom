@@ -3,6 +3,7 @@ import { Providers } from "./provider";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
+import PageLoader from "@/components/PageLoader";
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -26,6 +27,7 @@ export default function RootLayout({
         className={`${montserrat.variable} antialiased`}
       >
         <Toaster />
+        <PageLoader />
         <Providers>{children}</Providers>
       </body>
     </html>
