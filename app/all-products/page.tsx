@@ -5,7 +5,7 @@ import ProductCard from '@/components/ProductCard';
 import { useAppContext } from '@/context/AppContext'
 import React from 'react'
 
-const allProducts = () => {
+const AllProducts = () => {
 
  const {products} = useAppContext();
 
@@ -27,4 +27,4 @@ const allProducts = () => {
   )
 }
 
-export default allProducts
+export default AllProducts

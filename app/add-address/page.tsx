@@ -16,7 +16,7 @@ interface Address{
     state: string;
   }
 
-const addAddress = () => {
+const AddAddress = () => {
   const [address, setAddress] = useState<Address>({
     fullName: '',
     phoneNumber: '',
@@ -96,4 +96,4 @@ const onSubmitHandler = async (e:FormEvent<HTMLFormElement>)=>{
   )
 }
 
-export default addAddress;
+export default AddAddress;

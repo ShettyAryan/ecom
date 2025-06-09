@@ -10,7 +10,7 @@ import dynamic from 'next/dynamic'
 const Navbar = dynamic(()=> import ('@/components/Navbar'), {ssr:false})
 const OrderSummary = dynamic(()=> import ('@/components/OrderSummary'), {ssr:false})
 
-const cart = () => {
+const Cart = () => {
 
  const {products, router , cartItems, addToCart, updateCartQuantity, getCartCount} = useAppContext();
  
@@ -134,4 +134,4 @@ const cart = () => {
   )
 }
 
-export default cart
+export default Cart

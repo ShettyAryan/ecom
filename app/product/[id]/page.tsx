@@ -16,7 +16,7 @@ type Product ={
     [key:string]:any;
 };
 
-const product = () => {
+const Product = () => {
 
  const {id} = useParams();
 
@@ -140,4 +140,4 @@ const product = () => {
   ):<Loading />
 }
 
-export default product
+export default Product

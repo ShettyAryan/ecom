@@ -7,7 +7,7 @@ import Footer from '@/components/Footer'
 import Image from 'next/image'
 
 
-const productList = () => {
+const ProductList = () => {
 
 const {router} = useAppContext();
 const [products, setProducts] = useState<any[]>([])
@@ -82,4 +82,4 @@ useEffect(()=>{
   )
 }
 
-export default productList
+export default ProductList

@@ -7,7 +7,7 @@ import Footer from '@/components/Footer'
 import Loading from '@/components/Loading'
 import Image from 'next/image'
 
-const orders = () => {
+const Orders = () => {
 
 const {currency} = useAppContext()
 
@@ -72,4 +72,4 @@ const {currency} = useAppContext()
   
 }
 
-export default orders
+export default Orders

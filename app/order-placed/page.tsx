@@ -5,7 +5,7 @@ import { useAppContext } from '@/context/AppContext'
 import Image from 'next/image'
 
 
-const orderPlaced = () => {
+const OrderPlaced = () => {
 
  const {router} = useAppContext()
 
@@ -26,4 +26,4 @@ const orderPlaced = () => {
   )
 }
 
-export default orderPlaced
+export default OrderPlaced

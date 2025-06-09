@@ -8,7 +8,7 @@ import Loading from '@/components/Loading'
 import Image from 'next/image'
 
 
-const myOrders = () => {
+const MyOrders = () => {
 
     const {currency} = useAppContext()
 
@@ -85,4 +85,4 @@ const myOrders = () => {
   )
 }
 
-export default myOrders
+export default MyOrders
