@@ -32,7 +32,7 @@ const Product = () => {
 
  useEffect(()=>{
     fetchProductData();
- },[id, products.length])
+ },[id, products])
 
   return productData ?(
     <>

@@ -13,7 +13,7 @@ const OrderPlaced = () => {
     setTimeout(()=>{
         router.push('/my-orders')
     },5000)
- },[])
+ },[router])
 
   return (
     <div className='h-screen flex flex-col justify-center items-center gap-5'>
