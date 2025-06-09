@@ -32,7 +32,7 @@ const Product = () => {
 
  useEffect(()=>{
     fetchProductData();
- },[id, products])
+ },[fetchProductData])
 
   return productData ?(
     <>
@@ -50,7 +50,7 @@ const Product = () => {
                 </div>
 
                 <div className='grid grid-cols-4 gap-4'>
-                    {productData.image.map((image:any,index:number)=>(
+                    {productData.image.map((image,index:number)=>(
                         <div key={index}
                          onClick={()=> setMainImage(image)}
                          className='cursor-pointer rounded-lg overflow-hidden bg-gray-500/10'>

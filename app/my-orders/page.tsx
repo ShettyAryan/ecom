@@ -12,7 +12,7 @@ const MyOrders = () => {
 
     const {currency} = useAppContext()
 
-    const [orders, setOrders] = useState<any[]>([]);
+    const [orders, setOrders] = useState<typeof orderDummyData>([]);
     const [loading, setLoading] = useState<boolean>(true)
 
     const fetchOrders = async ()=>{
@@ -41,7 +41,7 @@ const MyOrders = () => {
                                         <Image src={assets.box_icon} className='max-w-16 max-h-16 object-cover' alt='box_icon'/>
                                         <p className='flex flex-col gap-3'>
                                             <span>
-                                                {order.items.map((item:any)=>item.product.name + `x ${item.quantity}`).join(", ")}
+                                                {order.items.map((item)=>item.product.name + `x ${item.quantity}`).join(", ")}
                                             </span>
                                             <span>
                                                 Items : {order.items.length}

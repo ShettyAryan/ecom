@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { assets, orderDummyData } from '@/assets/assets'
 import { useAppContext } from '@/context/AppContext'
-import Navbar from '@/components/Navbar'
+
 import Footer from '@/components/Footer'
 import Loading from '@/components/Loading'
 import Image from 'next/image'
