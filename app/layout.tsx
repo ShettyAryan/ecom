@@ -15,10 +15,10 @@ const montserrat = Montserrat({
 // app/page.tsx or any page file
 export const metadata = {
   title: 'QuickCart: E-commerce website',
-  description: 'A Full Stack E-commerce website wigth seller dashboard and payment integration',
+  description: 'A Full Stack E-commerce website with seller dashboard',
   openGraph: {
     title: 'Ecom website- Quick Cart',
-    description: 'A Full Stack E-commerce website wigth seller dashboard and payment integration',
+    description: 'A Full Stack E-commerce website wigth seller dashboard',
     url: 'https://ecom-nine.vercel.app/',
     siteName: 'Quick Cart',
     images: [
