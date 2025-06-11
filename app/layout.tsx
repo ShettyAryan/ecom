@@ -12,10 +12,34 @@ const montserrat = Montserrat({
   weight: ['400', '500', '600', '700'], // add other weights if needed
 });
 
-export const metadata: Metadata = {
-  title: "QuickCart - Aryan Shetty",
-  description: "E-Commerce Website with NextJS",
+// app/page.tsx or any page file
+export const metadata = {
+  title: 'QuickCart: E-commerce website',
+  description: 'A Full Stack E-commerce website wigth seller dashboard and payment integration',
+  openGraph: {
+    title: 'Ecom website- Quick Cart',
+    description: 'A Full Stack E-commerce website wigth seller dashboard and payment integration',
+    url: 'https://ecom-nine.vercel.app/',
+    siteName: 'Quick Cart',
+    images: [
+      {
+        url: 'https://res.cloudinary.com/dsvgadc5d/image/upload/v1749650113/ecom-nine.vercel.app__mzpaku.png', // <-- Preview image
+        width: 1200,
+        height: 630,
+        alt: 'Website preview',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Quick Cart E-Com Website',
+    description: 'Twitter description',
+    images: ['https://res.cloudinary.com/dsvgadc5d/image/upload/v1749650113/ecom-nine.vercel.app__mzpaku.png'],
+  },
 };
+
 
 export default function RootLayout({
   children,
