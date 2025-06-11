@@ -6,23 +6,47 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import Loading from '@/components/Loading'
 import Image from 'next/image'
+import axios from 'axios'
+import toast from 'react-hot-toast'
 
 
 const MyOrders = () => {
 
-    const {currency} = useAppContext()
+    const {currency, getToken, user} = useAppContext()
 
     const [orders, setOrders] = useState<typeof orderDummyData>([]);
     const [loading, setLoading] = useState<boolean>(true)
 
     const fetchOrders = async ()=>{
-        setOrders(orderDummyData)
-        setLoading(false)
+        try {
+            const token = await getToken()
+            const {data} = await axios.get('/api/order/list',{
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+            })
+
+            if(data.success){
+                setOrders(data.orders.reverse())
+                setLoading(false)
+            }else{
+                toast.error(data.message)
+            }
+        } catch (error:unknown) {
+            if(error instanceof Error){
+                toast.error(error.message)
+            }else{
+                toast.error("Gadbad zala re")
+            }
+            
+        }
     }
 
     useEffect(()=>{
-        fetchOrders()
-    }, [])
+        if(user){
+            fetchOrders()
+        }
+    }, [user])
 
 
   return (
@@ -61,9 +85,9 @@ const MyOrders = () => {
                                             <span>{order.address.phoneNumber}</span>
                                         </p>
                                     </div>
-                                    <p className='font-medium my-auto'>{currency}{order.amount}</p>
+                                    <p className='font-medium my-auto'>₹{Math.floor(order.amount)}</p>
                                     <div>
-                                        <p>
+                                        <p className='flex flex-col gap-1'>
                                             <span>Method: COD</span>
                                             <span>Date : {new Date(order.date).toLocaleDateString()}</span>
                                             <span>Payment : Pending</span>
