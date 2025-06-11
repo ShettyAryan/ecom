@@ -1,15 +1,37 @@
 import React, { useEffect, useState } from 'react'
 import { addressDummyData } from '@/assets/assets'
 import { useAppContext } from '@/context/AppContext'
+import axios from 'axios'
+import toast from 'react-hot-toast'
 
 const OrderSummary = () => {
-  const {currency, router, getCartCount, getCartAmount} = useAppContext()
+
+
+
+  const {currency, router, getCartCount, getCartAmount, getToken, user, cartItems, setCartItems} = useAppContext()
   const [selectedAddress, setSelectedAddress] = useState<any>(null)
   const [isDropdownOpen , setIsDropdownOpen] = useState<boolean>(false)
   const [userAddress, setUserAddress] = useState<any[]>([])
 
   const fetchUserAddress = async ()=>{
-    setUserAddress(addressDummyData)
+    try {
+      const token = await getToken()
+      const {data} = await axios.get('/api/user/get-address',{headers:{Authorization:`Bearer ${token}`}})
+      if(data.success){
+        setUserAddress(data.addresses)
+        if(data.addresses.length >0){
+          setSelectedAddress(data.addresses[0])
+        }
+      }else{
+          toast.error(data.message)
+        }
+    } catch (error:unknown) {
+      if(error instanceof Error){
+        toast.error(error.message)
+      }else{
+        toast.error("Something went wrong")
+      }
+    }
   }
 
   const handleAddressSelect = (address:any)=>{
@@ -22,8 +44,11 @@ const OrderSummary = () => {
 
   }
 useEffect(()=>{
-  fetchUserAddress()
-},[])
+  if(user){
+   fetchUserAddress();
+  }
+  
+},[user])
   return (
     <div className='w-full md:w-96 bg-gray-500/5 p-5'>
       <h2 className='text-xl md:text-2xl font-medium text-gray-700'>

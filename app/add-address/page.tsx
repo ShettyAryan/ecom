@@ -3,20 +3,25 @@
 import { assets } from '@/assets/assets';
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
+import { useAppContext } from '@/context/AppContext';
+import axios from 'axios';
 import Image from 'next/image';
 import React, { FormEvent, useState } from 'react'
+import toast from 'react-hot-toast';
 
 
 interface Address{
     fullName: string;
     phoneNumber: string;
-    pincode: string;
+    pincode: number|string;
     area: string;
     city: string;
     state: string;
   }
 
 const AddAddress = () => {
+
+  const {getToken, router} = useAppContext()
   const [address, setAddress] = useState<Address>({
     fullName: '',
     phoneNumber: '',
@@ -28,6 +33,28 @@ const AddAddress = () => {
   
 const onSubmitHandler = async (e:FormEvent<HTMLFormElement>)=>{
   e.preventDefault();
+  try {
+    const token = await getToken()
+
+    const {data} = await axios.post('/api/user/address', {address}, {headers:{
+      Authorization:`Bearer ${token}`
+    }})
+
+    if(data.success){
+      toast.success(data.message)
+      router.push('/cart')
+    }else{
+      toast.error(data.message)
+    }
+  } catch (error:unknown) {
+    if(error instanceof Error){
+       toast.error(error.message)
+    }else{
+       toast.error("Something went wrong")
+    }
+  }
+
+
 }
 
   return (

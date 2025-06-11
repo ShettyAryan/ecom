@@ -2,8 +2,10 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react'
 import { productsDummyData, userDummyData } from '@/assets/assets'
 import { useRouter } from 'next/navigation'
-import { useUser } from '@clerk/nextjs';
+import { useAuth, useUser } from '@clerk/nextjs';
 import type { UserResource } from "@clerk/types";
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 
 
@@ -24,8 +26,12 @@ type CartItems ={
     [itemId:string]:number;
 }
 
+type GetToken = (options?: { template?: string }) => Promise<string | null>;
+
+
 interface AppContextType{
     user : UserResource | null | undefined;
+    getToken : GetToken;
     currency: string | undefined;
     router: ReturnType<typeof useRouter>;
     isSeller: boolean;
@@ -65,18 +71,54 @@ export const AppContextProvider = ({children}:AppProviderProps)=>{
  const router = useRouter();
 
  const {user} = useUser();
+ const {getToken} = useAuth();
 
  const [products, setProducts] = useState<Product[]>([])
  const [userData, setUserData] = useState<UserData | boolean>(false)
- const [isSeller, setIsSeller] = useState<boolean>(true)
+ const [isSeller, setIsSeller] = useState<boolean>(false)
  const [cartItems, setCartItems] = useState<CartItems>({})
 
  const fetchProductData = async ()=>{
-    setProducts(productsDummyData)
+    try {
+    
+    const {data} = await axios.get('/api/product/list')
+
+    if(data.success){
+        setProducts(data.products)
+    }else{
+        toast.error(data.message)
+    }
+    } catch (error:unknown) {
+        if(error instanceof Error){
+            toast.error(error.message)
+        }else{
+            toast.error("Something went wrong")
+        }
+    }
  }
  
  const fetchUserData = async ()=>{
-    setUserData(userDummyData)
+    try {
+        if(user?.publicMetadata.role === 'seller'){
+    setIsSeller(true)
+}
+ const token = await getToken()
+ const {data} = await axios.get('/api/user/data',{headers:{Authorization:`Bearer ${token}`}})
+
+ if(data.success){
+    setUserData(data.user)
+    setCartItems(data.user.cartItems)
+ }else{
+    toast.error(data.message)
+ }
+
+    } catch (error:unknown) {
+        if (error instanceof Error) {
+            toast.error(error.message);
+        } else{
+            toast.error('Something went wrong');
+        }
+    }
  }
 
  const addToCart = async (itemId: string)=>{
@@ -89,6 +131,23 @@ export const AppContextProvider = ({children}:AppProviderProps)=>{
 
     }
     setCartItems(cartData);
+    
+    if (user) {
+        try {
+            const token = await getToken()
+            await axios.post('/api/cart/update',{cartData}, {headers:{
+                Authorization:`Bearer ${token}`
+            }})
+
+            toast.success("Item added to cart")
+        } catch (error:unknown) {
+            if(error instanceof Error){
+                toast.error(error.message)
+            }else{
+                toast.error("Something went wrong")
+            }
+        }        
+    }
  }
 
  const updateCartQuantity = async (itemId: string, quantity: number)=>{
@@ -100,6 +159,23 @@ export const AppContextProvider = ({children}:AppProviderProps)=>{
         cartData[itemId] = quantity;
     }
     setCartItems(cartData);
+
+    if (user) {
+        try {
+            const token = await getToken()
+            await axios.post('/api/cart/update',{cartData}, {headers:{
+                Authorization:`Bearer ${token}`
+            }})
+
+            toast.success("Cart Updated")
+        } catch (error:unknown) {
+            if(error instanceof Error){
+                toast.error(error.message)
+            }else{
+                toast.error("Something went wrong")
+            }
+        }        
+    }
  }
  const getCartCount = ()=>{
     return Object.values(cartItems).reduce((sum,qty)=>sum+qty,0);
@@ -123,11 +199,15 @@ export const AppContextProvider = ({children}:AppProviderProps)=>{
     },[]);
 
     useEffect(()=>{
-        fetchUserData();
-    },[])
+        if(user){
+            fetchUserData();
+        }
+        
+    },[user])
 
     const value :AppContextType = {
         user,
+        getToken,
         currency,
         router,
         isSeller,

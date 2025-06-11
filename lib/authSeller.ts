@@ -1,7 +1,7 @@
 import { clerkClient } from "@clerk/nextjs/server"
 import { NextResponse } from "next/server"
 
-const authSeller = async (userId:string) => {
+const authSeller = async (userId:string|null) => {
     try{
         const client = await clerkClient()
         const user = await client.users.getUser(userId)
